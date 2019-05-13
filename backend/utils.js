@@ -30,14 +30,14 @@ function mapData(data) {
   return dataArray.map(d =>
       ({
         positions: d.coordinates.map(c =>
-            utils.coordToVectorPosition(c)
+            coordToVectorPosition(c)
         ),
         label: "PPP"
       })).map(element =>
       (
           {
             label: element.label,
-            vector: utils.coordiantesToVector(element.positions)
+            vector: coordiantesToVector(element.positions)
           }
       )
   )[0]
@@ -46,7 +46,4 @@ function mapData(data) {
 
 module.exports = {
   mapData: mapData,
-  createVector : createVector,
-  coordiantesToVector: coordiantesToVector,
-  coordToVectorPosition : coordToVectorPosition,
 }

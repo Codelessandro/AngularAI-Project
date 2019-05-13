@@ -10,7 +10,8 @@ var model = require('./modelA')
 var utils = require('./utils')
 
 app.post('/predict', function (req, res) {
-  model.predict(tf.tensor(x, [1, 699613])).print();
+  let predictData = utils.mapData(req.body)
+  model.predict(tf.tensor(predictData.vector, [1, 699613])).print();
 
 
   res.json(
@@ -60,7 +61,7 @@ app.get('/train', function (req, res) {
   fs.readFile('./data.json', 'utf-8', function (err, data) {
 
     data = JSON.parse(data).data
-    data = data.map(d => mapData(d))
+    data = data.map(d => utils.mapData(d))
     train(data[0].vector, data[0].label, res)
   })
 
