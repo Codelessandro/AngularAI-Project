@@ -1,0 +1,33 @@
+.body {
+  position:absolute;
+  top:0;
+  left:0;
+  height:100vh;
+  width:100vw;
+}
+
+div.tracking-area {
+  background:lightgrey;
+  height:60%;
+}
+
+div.tracking-area article {
+  float:left;
+  width:200px;
+  background: grey;
+  margin:2em;
+  height:100px;
+}
+div.tracking-area .buttons {
+  display: grid;
+  padding:2em;
+  grid-template-columns: 5fr 1fr 1fr 5fr;
+}
+
+div.tracking-area button {
+  border:1px solid black;
+}
+
+div.track-button {
+  text-align: center;
+}
