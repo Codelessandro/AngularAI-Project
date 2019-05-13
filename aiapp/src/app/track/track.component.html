@@ -39,13 +39,12 @@
       | <input type="checkbox" [(ngModel)]="train"/>
       <span *ngIf="train">Train</span>
       <span *ngIf="!train">Predict</span>
-      <div *ngIf="train">
+      <div *ngIf="train" style="display:inline">
 
         <select [(ngModel)]="trainLabel">
           <option value="Couch">Couch</option>
           <option value="Paris">Paris</option>
         </select>
-        We train
       </div>
     </div>
   </div>
