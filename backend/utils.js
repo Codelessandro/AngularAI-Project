@@ -32,7 +32,7 @@ function mapData(data) {
         positions: d.coordinates.map(c =>
             coordToVectorPosition(c)
         ),
-        label: "PPP"
+        label: d.label
       })).map(element =>
       (
           {

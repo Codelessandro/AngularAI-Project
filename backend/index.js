@@ -31,7 +31,7 @@ function train(model, x, y, res) {
 
   const xs = tf.tensor([x]);
 
-  const ys = tf.tensor2d([1], [1, 1])
+  const ys = tf.tensor2d([y], [1, 1])
 
   model.fit(xs, ys).then(() => {
     console.log("one model fit")
@@ -65,10 +65,21 @@ app.get('/train', function (req, res) {
     data = JSON.parse(data).data
     data = data.map(d => utils.mapData(d))
 
-
+    console.log("lets train")
     //async this!
-    train(modelA[0], data[0].vector, data[0].label)
-    train(modelA[1], data[0].vector, data[0].label)
+    data.slice(0, 20).forEach(d => {
+      console.log(d.label)
+
+      if (d.label == "Paris") {
+        train(modelA[0], d.vector, 1) //we train ModelA_0 with Paris as true label
+        train(modelA[1], d.vector, 0) //we train ModelA_1 with Couch as false label
+        //this might be good if we add neutral training examples
+      } else if (d.label == "Couch") {
+        train(modelA[0], d.vector, 0)
+        train(modelA[1], d.vector, 1)
+      }
+
+    })
 
     //wait..
     res.json({"message": "Training done."})
