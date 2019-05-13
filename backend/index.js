@@ -10,6 +10,7 @@ var model = require('./modelA')
 var utils = require('./utils')
 
 app.post('/predict', function (req, res) {
+  model.predict(tf.tensor(x, [1, 699613])).print();
 
 
   res.json(
@@ -21,20 +22,17 @@ app.post('/predict', function (req, res) {
 })
 
 
-function train(x, y) {
+function train(x, y, res) {
   model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
-  console.log("we train")
 
   const xs = tf.tensor([x]);
 
   const ys = tf.tensor2d([1], [1, 1])
 
   model.fit(xs, ys).then(() => {
-    // Use the model to do inference on a data point the model hasn't seen before:
-    console.log("we are done")
-    model.predict(tf.tensor(x, [1, 699613])).print();
-    model.predict(tf.tensor(x, [1, 699613])).print();
-    model.predict(tf.tensor(x, [1, 699613])).print();
+    console.log("model fit")
+    res.json({"message": "Training done."})
+
   });
 
 }
@@ -56,28 +54,14 @@ app.post('/data', function (req, res) {
   )
 })
 
+
 app.get('/train', function (req, res) {
 
   fs.readFile('./data.json', 'utf-8', function (err, data) {
 
     data = JSON.parse(data).data
-    data = data.map(d =>
-
-        ({
-          positions: d.coordinates.map(c =>
-              utils.coordToVectorPosition(c)
-          ),
-          label: "PPP"
-        })).map(element =>
-        (
-            {
-              label: element.label,
-              vector: utils.coordiantesToVector(element.positions)
-            }
-        )
-    )
-    train(data[0].vector, data[0].label)
-    res.json({"message": "Training done."})
+    data = data.map(d => mapData(d))
+    train(data[0].vector, data[0].label, res)
   })
 
 
