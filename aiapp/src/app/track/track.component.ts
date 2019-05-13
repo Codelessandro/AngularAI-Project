@@ -9,6 +9,8 @@ import {DataService} from '../data.service';
 export class TrackComponent implements OnInit {
 
   data: any[] = [];
+  train : boolean = true;
+  trainLabel: string = "Couch";
 
   constructor(private dataService: DataService) {
   }
@@ -22,13 +24,17 @@ export class TrackComponent implements OnInit {
     const clientY = event.clientY;
 
     if (this.data.length === 100) {
-      this.dataService.addData(this.data, "Couch");
+      this.dataService.addData(this.data, this.trainLabel, this.train);
     }
 
     this.data.push({
       x: clientX,
       y: clientY
     });
+  }
+
+  trainBackend() {
+    this.dataService.trainBackend();
   }
 
 }

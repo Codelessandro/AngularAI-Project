@@ -1,9 +1,5 @@
 <div class="body">
 
-  <div class="track-button">
-    <h2>Tracking App</h2>
-  </div>
-
   <div class="tracking-area" (mousemove)="coordinates($event)">
 
     <div class="buttons">
@@ -35,6 +31,25 @@
 
 
   </div>
+
+  <div>
+    <div class="track-button">
+      <h2>Tracking App</h2>
+      <button (click)="trainBackend()">Train Backend</button>
+      | <input type="checkbox" [(ngModel)]="train"/>
+      <span *ngIf="train">Train</span>
+      <span *ngIf="!train">Predict</span>
+      <div *ngIf="train">
+
+        <select [(ngModel)]="trainLabel">
+          <option value="Couch">Couch</option>
+          <option value="Paris">Paris</option>
+        </select>
+        We train
+      </div>
+    </div>
+  </div>
+  <br/>
 
 
   <div class="data">
