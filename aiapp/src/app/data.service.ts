@@ -21,7 +21,7 @@ export class DataService {
     } else {
       this.httpClient.post("http://localhost:8081/predict", {coordinates: coordinates}).subscribe(data => {
         alert(data.predictedLabel)
-      }
+      })
     }
   }
 

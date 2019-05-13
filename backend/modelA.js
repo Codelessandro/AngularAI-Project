@@ -9,6 +9,7 @@ function createDenseModel() {
   return model;
 }
 
-model = createDenseModel();
-module.exports = model
+model1 = createDenseModel();
+model2 = createDenseModel();
+module.exports = [model1, model2]
 

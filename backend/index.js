@@ -6,14 +6,17 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 var fs = require('fs')
 var tf = require('@tensorflow/tfjs')
-var model = require('./modelA')
+var modelA = require('./modelA')
 var utils = require('./utils')
 
 app.post('/predict', function (req, res) {
   let predictData = utils.mapData(req.body)
-  model.predict(tf.tensor(predictData.vector, [1, 699613])).print();
 
+  //async this
+  modelA[0].predict(tf.tensor(predictData.vector, [1, 699613])).print();
+  modelA[1].predict(tf.tensor(predictData.vector, [1, 699613])).print();
 
+  //wait here
   res.json(
       {
         message: "Prediction done",
@@ -23,7 +26,7 @@ app.post('/predict', function (req, res) {
 })
 
 
-function train(x, y, res) {
+function train(model, x, y, res) {
   model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
 
   const xs = tf.tensor([x]);
@@ -31,8 +34,7 @@ function train(x, y, res) {
   const ys = tf.tensor2d([1], [1, 1])
 
   model.fit(xs, ys).then(() => {
-    console.log("model fit")
-    res.json({"message": "Training done."})
+    console.log("one model fit")
 
   });
 
@@ -62,7 +64,16 @@ app.get('/train', function (req, res) {
 
     data = JSON.parse(data).data
     data = data.map(d => utils.mapData(d))
-    train(data[0].vector, data[0].label, res)
+
+
+    //async this!
+    train(modelA[0], data[0].vector, data[0].label)
+    train(modelA[1], data[0].vector, data[0].label)
+
+    //wait..
+    res.json({"message": "Training done."})
+
+
   })
 
 
